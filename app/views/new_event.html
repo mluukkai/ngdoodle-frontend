@@ -1,0 +1,25 @@
+<h2>Create event</h2>
+
+<div ng-click="flashClicked()" ng-show="flash" class="alert alert-success">
+	event created
+</div>
+
+<form role="form" ng-hide="flash">
+	<div class="form-group">
+ 	<label>name</label>
+		<input type="text" ng-model="newEvent.name" class="form-control"></input>
+	</div>
+	
+	<div class="form-group">
+ 	<label>description</label>
+ 	<textarea ng-model="newEvent.description" class="form-control" rows="3"></textarea>
+	</div>
+	
+	<div class="form-group">
+  	<button type="submit" ng-click="create()" class="btn btn-primary btn-lg btn-block">create</button>
+	</div>
+</form>
+
+<div ng-show="flash">
+	{{event}}
+</div>

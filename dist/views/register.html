@@ -1,0 +1,36 @@
+<h2>{{event.name}}</h2>
+
+<div class="identifier"> 
+	identidfier <span class="label label-info">{{event.identifier}}</span>
+</div>
+
+<div class="event">
+	{{event.description}}
+</div>
+
+<h3>Times</h3>
+
+<table class="table table-condensed">
+	<thead>
+		<td></td>
+		<td ng-repeat="slot in slots">
+			{{slot.date}}  {{slot.hh|twodigits}}:{{slot.mm|twodigits}}
+		</td>
+	</thead>
+	<tr ng-repeat="n in names" ng-class="{me:name==n}">
+		<td>{{n}}</td>
+		<td ng-repeat="slot in slots" style="padding:3px"> 
+			<div ng-class="{regok:hasMarked(slot, n), regnot:!hasMarked(slot, n)}">
+				&nbsp;
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<input type="text" ng-model="name" placeholder="type your name here ">	
+		</td>
+		<td ng-repeat="slot in slots" ng-class="{regok:hasMarked(slot, name), regnot:!hasMarked(slot, name)}" ng-show="name.length>0">
+			<a ng-click="register(slot)" class="btn">{{buttonFor(slot, name)}}</a>
+		</td>
+	</tr>
+</table>
