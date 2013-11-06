@@ -14,8 +14,8 @@ app.config(['$httpProvider', function ($httpProvider) {
  *
  */
 
-app.value('BASE_URL', 'http://localhost:3000');
-//app.value('BASE_URL', 'http://ng-doodle-backend.herokuapp.com');
+//app.value('BASE_URL', 'http://localhost:3000');
+app.value('BASE_URL', 'http://ng-doodle-backend.herokuapp.com');
 
     app.factory('Flash', function() {
       var flash = {};
