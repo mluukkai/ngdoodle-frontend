@@ -14,14 +14,32 @@ app.config(['$httpProvider', function ($httpProvider) {
  *
  */
 
-//app.value('BASE_URL', 'http://localhost:3000');
-app.value('BASE_URL', 'http://ng-doodle-backend.herokuapp.com');
+app.value('BASE_URL', 'http://localhost:3000');
+//app.value('BASE_URL', 'http://ng-doodle-backend.herokuapp.com');
 
-app.factory('Flash', function() {
-  var flash = {};
+    app.factory('Flash', function() {
+      var flash = {};
 
-  flash.show = false;
-  return flash;
+      flash.show = false;
+      return flash;
+    });
+
+app.factory('Events', function($http, BASE_URL) {
+    var events = {};
+
+    events.query = function() {
+        return $http.get(BASE_URL+'/events.json');        
+    }
+
+    events.get = function (id) {
+        return $http.get(BASE_URL+'/events/'+id+'.json');
+    }
+
+    events.by_identifier = function (eid) {
+        return $http.get(BASE_URL+'/register/'+eid+'.json');
+    }
+
+    return events;
 });
 
 /*
@@ -46,10 +64,10 @@ app.filter('twodigits', function(){
  *
  */
 
-app.controller('EventsCtrl', function ($scope, $http, BASE_URL) {
+app.controller('EventsCtrl', function ($scope, Events) {
     $scope.visible = false;
 
-    $http.get(BASE_URL+'/events.json').success( function(data) {
+    Events.query().success( function(data) {
         $scope.events = data;
     });
 });
@@ -72,7 +90,7 @@ app.controller('RegisterSearchCtrl', function($scope, $http, $location) {
  *
  */
 
-app.controller('RegisterCtrl', function($scope, $http, $routeParams, BASE_URL) {
+app.controller('RegisterCtrl', function($scope, $http, $routeParams, BASE_URL, Events) {
     var slotIndex = function(slot) {
         for(var i in $scope.event.slots ) {
             var s = $scope.event.slots[i];
@@ -83,7 +101,6 @@ app.controller('RegisterCtrl', function($scope, $http, $routeParams, BASE_URL) {
     }
 
     var mark = function(slot, name) {
-        console.log($scope.event.slots[ slotIndex(slot) ]);
         $scope.event.slots[ slotIndex(slot) ].registrations.push({name:name});
     }
 
@@ -108,7 +125,7 @@ app.controller('RegisterCtrl', function($scope, $http, $routeParams, BASE_URL) {
         }
     }
 
-    $http.get(BASE_URL+'/register/'+$routeParams.id).success( function(data) {
+    Events.by_identifier($routeParams.id).success( function(data) {
         $scope.event = data;
 
         $scope.names = [];
@@ -144,8 +161,6 @@ app.controller('RegisterCtrl', function($scope, $http, $routeParams, BASE_URL) {
 
         if ( $scope.hasMarked(slot, $scope.name) ) {
             var indexAndId = registrationIndexAndId(slot,$scope.name);
-            console.log( indexAndId );
-
             $http.delete(BASE_URL+'/registrations/'+indexAndId.id +'.json', postData)
                 .success(function (data, status, headers, config) {
                     console.log(data);
@@ -171,7 +186,7 @@ app.controller('RegisterCtrl', function($scope, $http, $routeParams, BASE_URL) {
  *
  */
 
-app.controller('EventCtrl', function($scope, $http, $routeParams, Flash, BASE_URL) {
+app.controller('EventCtrl', function($scope, $http, $routeParams, Flash, BASE_URL, Events) {
     var setDefaultValues = function () {
         $scope.newSlot = {};
         $scope.newSlot.mm = 0;
@@ -221,7 +236,7 @@ app.controller('EventCtrl', function($scope, $http, $routeParams, Flash, BASE_UR
             });
     }
 
-	$http.get(BASE_URL+'/events/'+$routeParams.id+'.json').success( function(data) {
+	Events.get($routeParams.id).success( function(data) {
         $scope.event = data;
         $scope.flash = Flash.show;
     });	
