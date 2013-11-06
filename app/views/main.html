@@ -1,5 +1,7 @@
 <div>
   <h2>Events</h2>
+
+  <div ng-show="wait" class="alert alert-info">Please wait for the data to be loaded</div>
   
   <div ng-repeat="e in events" class="event">
 		<div ng-mouseover="visible = true" ng-mouseleave="visible = false">

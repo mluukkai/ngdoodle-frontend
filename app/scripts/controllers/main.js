@@ -99,9 +99,11 @@ app.filter('twodigits', function(){
 
 app.controller('EventsCtrl', function ($scope, Events) {
     $scope.visible = false;
+    $scope.wait = true; 
 
     Events.query().success( function(data) {
         $scope.events = data;
+        $scope.wait = false;
     });
 });
 
