@@ -19,10 +19,10 @@ app.value('BASE_URL', 'http://localhost:3000');
 
     app.factory('Flash', function() {
       var flash = {};
-
       flash.show = false;
       return flash;
     });
+
 
 app.factory('Events', function($http, BASE_URL) {
     var events = {};
@@ -39,7 +39,40 @@ app.factory('Events', function($http, BASE_URL) {
         return $http.get(BASE_URL+'/register/'+eid+'.json');
     }
 
+    events.save = function (data) {
+        return $http.post(BASE_URL+'/events.json', data);
+    }
+
     return events;
+});
+
+
+app.factory('Slots', function($http, BASE_URL) {
+    var slots = {};
+
+    slots.save = function (data) {
+        return $http.post(BASE_URL+'/slots.json', data);
+    }
+
+    slots.delete = function (id) {
+        return $http.delete(BASE_URL+'/slots/'+id+'.json');
+    }
+
+    return slots;
+});
+
+app.factory('Registrations', function($http, BASE_URL) {
+    var regs = {};
+
+    regs.delete = function (id) {
+        return $http.delete(BASE_URL+'/registrations/'+id +'.json');
+    }
+
+    regs.save = function (data) {
+        return $http.post(BASE_URL+'/registrations.json', data);
+    }
+
+    return regs;
 });
 
 /*
@@ -78,7 +111,7 @@ app.controller('EventsCtrl', function ($scope, Events) {
  *
  */
 
-app.controller('RegisterSearchCtrl', function($scope, $http, $location) {
+app.controller('RegisterSearchCtrl', function($scope, $location) {
     $scope.click = function() {
         $location.path( "/register/"+$scope.eid );    
     }
@@ -90,7 +123,7 @@ app.controller('RegisterSearchCtrl', function($scope, $http, $location) {
  *
  */
 
-app.controller('RegisterCtrl', function($scope, $http, $routeParams, BASE_URL, Events) {
+app.controller('RegisterCtrl', function($scope, $routeParams, Events, Registrations) {
     var slotIndex = function(slot) {
         for(var i in $scope.event.slots ) {
             var s = $scope.event.slots[i];
@@ -141,14 +174,6 @@ app.controller('RegisterCtrl', function($scope, $http, $routeParams, BASE_URL, E
     });     
 
     $scope.register = function (slot) {
-        console.log(slot);
-        console.log($scope.name);
-
-        var postData = { 
-            slot_id:slot.id, 
-            name:$scope.name
-        };      
-
         var registrationIndexAndId = function(slot, name) {
             for ( var i in slot.registrations ) {
                 var reg = slot.registrations[i];
@@ -161,17 +186,20 @@ app.controller('RegisterCtrl', function($scope, $http, $routeParams, BASE_URL, E
 
         if ( $scope.hasMarked(slot, $scope.name) ) {
             var indexAndId = registrationIndexAndId(slot,$scope.name);
-            $http.delete(BASE_URL+'/registrations/'+indexAndId.id +'.json', postData)
+            Registrations.delete(indexAndId.id)
                 .success(function (data, status, headers, config) {
-                    console.log(data);
                     unMark(slot, indexAndId.index );
                 }).error(function (data, status, headers, config) {
                     console.log("unauthorized");
                 });
         } else {
-            $http.post(BASE_URL+'/registrations.json', postData)
+            var newRegistration = { 
+                slot_id: slot.id, 
+                name: $scope.name
+            };      
+
+            Registrations.save(newRegistration)
                 .success(function (data, status, headers, config) {
-                    console.log(data);
                     mark(slot, $scope.name);
                 }).error(function (data, status, headers, config) {
                     console.log("unauthorized");
@@ -186,7 +214,7 @@ app.controller('RegisterCtrl', function($scope, $http, $routeParams, BASE_URL, E
  *
  */
 
-app.controller('EventCtrl', function($scope, $http, $routeParams, Flash, BASE_URL, Events) {
+app.controller('EventCtrl', function($scope, $routeParams, Flash, Events, Slots) {
     var setDefaultValues = function () {
         $scope.newSlot = {};
         $scope.newSlot.mm = 0;
@@ -208,7 +236,7 @@ app.controller('EventCtrl', function($scope, $http, $routeParams, Flash, BASE_UR
     }
 
     $scope.deleteSlot = function(slot) {
-        $http.delete(BASE_URL+'/slots/'+slot.id+'.json')
+        Slots.delete(slot.id)
             .success(function (data, status, headers, config) {
                 var index = indexOf(slot, $scope.event.slots);
                 $scope.event.slots.splice(index, 1);
@@ -228,7 +256,7 @@ app.controller('EventCtrl', function($scope, $http, $routeParams, Flash, BASE_UR
 
         setDefaultValues();
         
-        $http.post(BASE_URL+'/slots.json', postData)
+        Slots.save(postData)
             .success(function (data, status, headers, config) {
                 $scope.event.slots.push(data);
             }).error(function (data, status, headers, config) {
@@ -250,15 +278,20 @@ app.controller('EventCtrl', function($scope, $http, $routeParams, Flash, BASE_UR
  *
  */
 
-app.controller('NewEventCtrl', function ($scope, $http, $location, Flash, BASE_URL) {
+app.controller('NewEventCtrl', function ($scope, $location, Flash, Events) {
     $scope.flashaa = function(){
         Flash.show = true;
     }
 
     $scope.create = function() {
-        var postData = { name:$scope.newEvent.name, description:$scope.newEvent.description }
+        var newEvent = { 
+            name:$scope.newEvent.name, 
+            description:$scope.newEvent.description 
+        }
+        
         $scope.newEvent = {};
-        $http.post(BASE_URL+'/events.json', postData)
+
+        Events.save(newEvent)
             .success(function (data, status, headers, config) {
                 console.log(data);
                 Flash.show = true;
