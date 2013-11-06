@@ -216,7 +216,19 @@ app.controller('RegisterCtrl', function($scope, $routeParams, Events, Registrati
  *
  */
 
-app.controller('EventCtrl', function($scope, $routeParams, Flash, Events, Slots) {
+app.controller('EventCtrl', function($scope, $routeParams, $location, $anchorScroll, Flash, Events, Slots) {
+    var slotDates = function (slots) {
+        var dates = [];
+
+        slots.forEach( function(slot) {
+            if ( dates.indexOf(slot.date)==-1 ) {
+                dates.push(slot.date);
+            }
+        });
+
+        return dates.sort();
+    }
+
     var setDefaultValues = function () {
         $scope.newSlot = {};
         $scope.newSlot.mm = 0;
@@ -266,12 +278,23 @@ app.controller('EventCtrl', function($scope, $routeParams, Flash, Events, Slots)
             });
     }
 
-	Events.get($routeParams.id).success( function(data) {
+    $scope.newSlotFor = function (date) {
+        $scope.newSlot.date = date;
+        $location.hash("slotcreation");
+        $anchorScroll();
+    }
+
+    $scope.hourSelection = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
+    $scope.minSelection = [0,15, 30, 45];
+
+    Events.get($routeParams.id).success( function(data) {
         $scope.event = data;
+        $scope.dates = slotDates($scope.event.slots);
         $scope.flash = Flash.show;
-    });	
+    }); 
 
     setDefaultValues();
+
 });
 
 /*

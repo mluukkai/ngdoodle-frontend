@@ -17,18 +17,21 @@
 <h3>slots</h3>
 
 <div ng-show="event.slots.length>0">
-	<ul>
-		<li ng-repeat="slot in event.slots | orderBy:'hh' | orderBy:'date' ">
-			{{slot.date}} at {{slot.hh|twodigits}}:{{slot.mm|twodigits}} {{slot.text}}
+	<div ng-repeat="d in dates" class="date">
+		<span>{{d|date:'dd.MM.yyyy'}}</span>
+		<li ng-repeat="slot in event.slots | filter:{date:d} |orderBy:'hh' | orderBy:'date' ">
+			{{slot.date}} {{slot.hh|twodigits}}:{{slot.mm|twodigits}} {{slot.text}}
 			<a ng-click="deleteSlot(slot)" class="btn btn-sm btn-danger">delete</a>
 		</li>
-	</ul>
+		<a ng-click="newSlotFor(d)" class="btn btn-sm btn-primary">a new slot</a>
+	</div>	
 </div>
 
-<h3>create new slot</h3>
 
-<form role="form">
-	
+<h3 id="slotcreation">create new slot</h3>
+
+<form role="form" class="myForm">
+
 	<div class="form-group">
  		<label>hour</label>
 		<input type="number" ng-model="newSlot.hh" min="0" max="23" class="form-control">
