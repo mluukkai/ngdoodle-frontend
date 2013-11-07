@@ -273,6 +273,7 @@ app.controller('EventCtrl', function($scope, $routeParams, $location, $anchorScr
         Slots.save(postData)
             .success(function (data, status, headers, config) {
                 $scope.event.slots.push(data);
+                $scope.dates = slotDates($scope.event.slots);
             }).error(function (data, status, headers, config) {
                 console.log("unauthorized");
             });
@@ -283,9 +284,6 @@ app.controller('EventCtrl', function($scope, $routeParams, $location, $anchorScr
         $location.hash("slotcreation");
         $anchorScroll();
     }
-
-    $scope.hourSelection = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
-    $scope.minSelection = [0,15, 30, 45];
 
     Events.get($routeParams.id).success( function(data) {
         $scope.event = data;
