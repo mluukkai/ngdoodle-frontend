@@ -259,13 +259,17 @@ app.controller('EventCtrl', function($scope, $routeParams, $location, $anchorScr
             });
     }
 
+    $scope.newSlotForm = function () {
+        $scope.newSlotFormVisible = true;
+    }
+
     $scope.createSlot = function() {
         var postData = { 
-            event_id:$routeParams.id, 
-            text:$scope.newSlot.text,
-            hh:$scope.newSlot.hh,
-            mm:$scope.newSlot.mm,
-            date:$scope.newSlot.date 
+            event_id: $routeParams.id, 
+            text: $scope.newSlot.text,
+            hh: $scope.newSlot.hh,
+            mm: $scope.newSlot.mm,
+            date: $scope.newSlot.date 
         };
 
         setDefaultValues();
@@ -274,6 +278,8 @@ app.controller('EventCtrl', function($scope, $routeParams, $location, $anchorScr
             .success(function (data, status, headers, config) {
                 $scope.event.slots.push(data);
                 $scope.dates = slotDates($scope.event.slots);
+                $scope.dateSlotFormVisible = false;
+                $scope.newSlotFormVisible = false;
             }).error(function (data, status, headers, config) {
                 console.log("unauthorized");
             });
@@ -281,17 +287,20 @@ app.controller('EventCtrl', function($scope, $routeParams, $location, $anchorScr
 
     $scope.newSlotFor = function (date) {
         $scope.newSlot.date = date;
-        $location.hash("slotcreation");
-        $anchorScroll();
+        $scope.visible = true;
     }
+
+    $scope.scrollDown = Flash.goingDown;
+    console.log("going down: "+$scope.scrollDown);
+    $scope.flashSlot = Flash.flashSlot;
+
+    setDefaultValues();
 
     Events.get($routeParams.id).success( function(data) {
         $scope.event = data;
         $scope.dates = slotDates($scope.event.slots);
         $scope.flash = Flash.show;
     }); 
-
-    setDefaultValues();
 
 });
 

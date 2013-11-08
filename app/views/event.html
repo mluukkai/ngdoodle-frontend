@@ -2,7 +2,11 @@
 	event created, add times!
 </div>
 
-<h2>{{event.name}}</h2>
+<h2 id="start">{{event.name}}</h2>
+
+<div ng-click="flashClicked()" ng-show="flashSlot" class="alert alert-success">
+	a new slot was added!
+</div>
 
 <div class="identifier"> 
 	identidfier <span class="label label-info">{{event.identifier}}</span>
@@ -12,11 +16,11 @@
 	{{event.description}}
 </div>
 
-<a ng-href="#/register/{{event.identifier}}" class="btn btn-primary btn-lg btn-block">go to registration</a>
-
-<h3>slots</h3>
+<a ng-href="#/register/{{event.identifier}}" class="btn btn-primary btn-lg btn-block" ng-show="event.slots.length>0">go to registration</a>
 
 <div ng-show="event.slots.length>0">
+<h3>slots</h3>
+
 	<div ng-repeat="d in dates" class="date">
 		<span>{{d|date:'dd.MM.yyyy'}}</span>
 		<li ng-repeat="slot in event.slots | filter:{date:d} |orderBy:'hh' | orderBy:'date' ">
@@ -24,13 +28,31 @@
 			<a ng-click="deleteSlot(slot)" class="btn btn-sm btn-danger">delete</a>
 		</li>
 		<a ng-click="newSlotFor(d)" class="btn btn-sm btn-primary">a new slot</a>
+
+		<form role="form" class="myForm" ng-show="dateSlotFormVisible">
+			<div class="form-group">
+					<label>hour</label>
+				<input type="number" ng-model="newSlot.hh" min="0" max="23" class="form-control"></input>
+			</div>
+
+			<div class="form-group">
+					<label>minute</label>
+				<input type="number" ng-model="newSlot.mm" min="0" max="59" class="form-control"></input>
+			</div>
+
+			<div class="form-group">
+				<button type="submit" ng-click="createSlot()" class="btn btn-primary btn-lg btn-block">create</button>
+			</div>
+		</form>
 	</div>	
 </div>
 
+<a ng-click="newSlotForm()" class="btn btn-primary btn-lg btn-block" ng-show="event.slots.length>0">create new slot for any date</a>
 
-<h3 id="slotcreation">create new slot</h3>
+<a ng-click="newSlotForm()" class="btn btn-primary btn-lg btn-block" ng-show="event.slots.length==0">create new slot</a>
 
-<form role="form" class="myForm">
+
+<form role="form" class="myForm" ng-show="newSlotFormVisible" id="form">
 
 	<div class="form-group">
  		<label>hour</label>
