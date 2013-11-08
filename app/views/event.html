@@ -47,9 +47,9 @@
 	</div>	
 </div>
 
-<a ng-click="newSlotForm()" class="btn btn-primary btn-lg btn-block" ng-show="event.slots.length>0">create new slot for any date</a>
+<a ng-click="newSlotForm()" class="btn btn-primary btn-lg btn-block" ng-show="!newSlotFormVisible && event.slots.length>0">create new slot for any date</a>
 
-<a ng-click="newSlotForm()" class="btn btn-primary btn-lg btn-block" ng-show="event.slots.length==0">create new slot</a>
+<a ng-click="newSlotForm()" class="btn btn-primary btn-lg btn-block" ng-show="!newSlotFormVisible && event.slots.length==0">create new slot for any date</a>
 
 
 <form role="form" class="myForm" ng-show="newSlotFormVisible" id="form">
