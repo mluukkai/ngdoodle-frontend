@@ -101,6 +101,10 @@ app.controller('EventsCtrl', function ($scope, Events) {
     $scope.visible = false;
     $scope.wait = true; 
 
+    var arr = [1,2,3,4];
+
+    $scope.sum = _.map(arr, function(num){ return num*2});
+
     Events.query().success( function(data) {
         $scope.events = data;
         $scope.wait = false;
