@@ -157,7 +157,7 @@ app.filter('slashToSpace', function(){
  */
 
 app.controller('HelmetCtrl', function ($scope, Helmet) {
-    $scope.author = "Luukkainen";
+    $scope.author = "";
 
     var author_details = function(book) {
         var names = book.author_details.length==0 || book.author_details[0].name==null ? [] : book.author_details[0].name.split("\\");
