@@ -70,8 +70,17 @@ body {
 
 .myForm {
     padding: 10px;
-    marigin: 10px;
+    margin: 10px;
     background-color: #EAEAEC;
 }
-
+.book{
+    padding: 5px;
+    margin: 10px;
+    background-color: #EAEAEC;
+}
+.detailed{
+    padding: 5px;
+    margin: 10px;
+    background-color: white;
+}
 

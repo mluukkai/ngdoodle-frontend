@@ -17,12 +17,11 @@ app.config(['$httpProvider', function ($httpProvider) {
 //app.value('BASE_URL', 'http://localhost:3000');
 app.value('BASE_URL', 'http://ng-doodle-backend.herokuapp.com');
 
-    app.factory('Flash', function() {
-      var flash = {};
-      flash.show = false;
-      return flash;
-    });
-
+app.factory('Flash', function() {
+    var flash = {};
+    flash.show = false;
+    return flash;
+});
 
 app.factory('Events', function($http, BASE_URL) {
     var events = {};
@@ -75,6 +74,34 @@ app.factory('Registrations', function($http, BASE_URL) {
     return regs;
 });
 
+app.factory('Helmet', function($http, $q) {
+    var helmet = {};
+
+    helmet.getBooksByAuthor = function(author) {
+        var deferred = $q.defer();
+        var records = JSON.parse(window.localStorage.getItem(author));
+
+        if ( records!=null ) {
+            console.log("was in cache");
+            deferred.resolve(records);
+        } else {
+            console.log("will fetch from server");
+            $http.jsonp("http://data.kirjastot.fi/search/author.json?query="+author+"&callback=JSON_CALLBACK")
+                .success(function(data, status, headers, config){
+                    window.localStorage.setItem(author, JSON.stringify(data.records)); 
+                    deferred.resolve(data.records); 
+                }).error(function(data, status, headers, config){
+                    deferred.reject("error...");
+                });
+        }    
+
+        return deferred.promise;
+    }
+
+    return helmet;
+});
+
+
 /*
  *
  *  Filters
@@ -82,13 +109,71 @@ app.factory('Registrations', function($http, BASE_URL) {
  */
 
 app.filter('twodigits', function(){
-   return function(value){
+    return function(value){
         if (value>9) {
             return ""+value;
         } else {
             return "0"+value;
         }
-   };
+    };
+});
+
+app.filter('stripTrailingSpace', function(){
+    function endsWith(str, suffix) {
+        return str.indexOf(suffix, str.length - suffix.length) !== -1;
+    }
+
+    return function(value){
+        if ( value!=null && endsWith(value, " / ")) {
+            return value.substring(0, value.length-3);
+        } 
+
+        return value;
+    };
+});
+
+app.filter('slashToSpace', function(){
+    function replaceAll(string, pattern, replacement){
+        while ( string.indexOf(pattern)!=-1 ) {
+            string = string.replace(pattern, replacement);
+        }
+
+        return string;
+    }
+
+    return function(value){
+        if (value==null) {
+            return null;
+        }
+
+        return replaceAll(value, "\\", " ");
+    };
+});
+
+/*
+ *
+ *  HelmetCtrl
+ *
+ */
+
+app.controller('HelmetCtrl', function ($scope, Helmet) {
+    $scope.author = "Luukkainen";
+
+    var author_details = function(book) {
+        var names = book.author_details.length==0 || book.author_details[0].name==null ? [] : book.author_details[0].name.split("\\");
+        var roles = book.author_details.length==0 || book.author_details[0].role==null ? [] : book.author_details[0].role.split("\\");
+
+        return  _.zip(names, roles);
+    }
+
+    $scope.searchAuthor = function() {
+        Helmet.getBooksByAuthor($scope.author).then(function( books ) {
+            _(books).each( function(book){
+                book.all_authors = author_details(book);
+            } );
+            $scope.books = books;
+        });       
+    }
 });
 
 /*
@@ -100,10 +185,6 @@ app.filter('twodigits', function(){
 app.controller('EventsCtrl', function ($scope, Events) {
     $scope.visible = false;
     $scope.wait = true; 
-
-    var arr = [1,2,3,4];
-
-    $scope.sum = _.map(arr, function(num){ return num*2});
 
     Events.query().success( function(data) {
         $scope.events = data;
@@ -338,3 +419,5 @@ app.controller('NewEventCtrl', function ($scope, $location, Flash, Events) {
     };
 
 });
+
+

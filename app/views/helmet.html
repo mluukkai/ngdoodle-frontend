@@ -1,0 +1,44 @@
+<h2>helmet</h2>
+
+<form>
+	<input type="text" ng-model="author"></input>
+	<button ng-click="searchAuthor()">search by author</button>
+</form>
+
+<div>
+	<div ng-repeat="book in books" ng-init="show=false" ng-click="show=!show" class="book">
+		<h4>{{book.title|stripTrailingSpace}}</h4>
+		<div>{{book.author}}</div>
+
+		<div>{{book.publisher|slashToSpace}} {{book.year}}</div>
+
+		<div class="detailed" ng-show="show">
+
+			<div ng-repeat="desc in book.description">{{desc|slashToSpace}}</div>
+
+			<a ng-href="{{book.library_url}}">see in helmet</a>
+
+			<div ng-show="book.extent.length>0">
+				<h4>Further info</h4>
+				<ul>
+					<li ng-repeat="e in book.extent">{{e}}</li>
+				</ul>
+			</div>
+
+			<div ng-show="book.author_details.length>0">
+				<h4>author details</h4>
+				<ul>
+					<li ng-repeat="auth in book.all_authors">
+						{{auth[0]}} {{auth[1]}}
+					</li>
+				</ul>
+			</div>
+
+			<br>
+
+			{{book}}
+
+		</div>
+
+	</div>
+</div>

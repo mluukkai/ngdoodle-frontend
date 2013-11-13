@@ -26,6 +26,10 @@ angular.module('doodleFrontendApp', [
         templateUrl: 'views/new_event.html',
         controller: 'NewEventCtrl'
       })
+      .when('/helmet', {
+        templateUrl: 'views/helmet.html',
+        controller: 'HelmetCtrl'
+      })
       .otherwise({
         redirectTo: '/events'
       });
