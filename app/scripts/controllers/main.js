@@ -156,14 +156,24 @@ app.filter('slashToSpace', function(){
  *
  */
 
-app.controller('HelmetCtrl', function ($scope, Helmet) {
+app.controller('HelmetCtrl', function ($scope, Helmet, $http) {
     $scope.author = "";
+    //$scope.author = "Luukkainen";
 
     var author_details = function(book) {
         var names = book.author_details.length==0 || book.author_details[0].name==null ? [] : book.author_details[0].name.split("\\");
         var roles = book.author_details.length==0 || book.author_details[0].role==null ? [] : book.author_details[0].role.split("\\");
 
         return  _.zip(names, roles);
+    }
+
+    $scope.shelfInfo = function(book) {
+        var b_id = book.library_id.substring(11);
+        console.log(b_id);
+        $http.get("http://ng-doodle-backend.herokuapp.com/bookinfo/"+b_id).success( function(data){
+            console.log(data);
+            book.shelfInfo = data; 
+        });
     }
 
     $scope.searchAuthor = function() {

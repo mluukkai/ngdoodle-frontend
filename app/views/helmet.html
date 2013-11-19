@@ -12,6 +12,17 @@
 
 		<div>{{book.publisher|slashToSpace}} {{book.year}}</div>
 
+		<div>
+			<a ng-click="shelfInfo(book); $event.stopPropagation();">hyllytiedot</a>
+		</div>
+
+		<table class="table table-condensed">
+			<tr ng-repeat="(library, info) in book.shelfInfo">
+				<td>{{library}}</td>
+				<td>{{info}}</td>
+			</tr>
+		</table>
+
 		<div class="detailed" ng-show="show">
 
 			<div ng-repeat="desc in book.description">{{desc|slashToSpace}}</div>
