@@ -6,22 +6,41 @@
 </form>
 
 <div>
-	<div ng-repeat="book in books" ng-init="show=false" ng-click="show=!show" class="book">
+	<div ng-repeat="book in books" ng-init="show=false" class="book">
 		<h4>{{book.title|stripTrailingSpace}}</h4>
 		<div>{{book.author}}</div>
 
 		<div>{{book.publisher|slashToSpace}} {{book.year}}</div>
 
 		<div>
-			<a ng-click="shelfInfo(book); $event.stopPropagation();">hyllytiedot</a>
+			<a class="btn" ng-click="shelfInfo(book); $event.stopPropagation();">hyllytiedot</a>
 		</div>
 
-		<table class="table table-condensed">
+
+		<div ng-show="library.selected" class="library">
+			<h3>{{library.selected}}</h3>
+
+			{{library.details}}
+
+			<a class="btn" ng-click="library.selected=null; $event.stopPropagation();">sulje</a>
+		</div>
+
+		<table class="table table-condensed" ng-show="book.shelfInfo!=undefined">
+			<thead>
+				<td></td>
+				<td></td>
+				<td>etäisyys</td>
+			</thead>
 			<tr ng-repeat="(library, info) in book.shelfInfo">
-				<td>{{library}}</td>
-				<td>{{info}}</td>
+				<td><a href="" ng-click="select(library, info); $event.stopPropagation();">{{library}}</a></td>
+				<td>{{info['self']}}</td>
+				<td>{{dist(location.latitude, location.longitude, info['library']['latitude'], info['library']['longitude'])}} km</td>
 			</tr>
 		</table>
+
+		<div>
+			<a class="btn" ng-click="show=!show; $event.stopPropagation();">lisätiedot</a>
+		</div>
 
 		<div class="detailed" ng-show="show">
 

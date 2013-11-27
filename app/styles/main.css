@@ -83,4 +83,18 @@ body {
     margin: 10px;
     background-color: white;
 }
-
+.library{
+    border: 1px;
+    padding: 5px;
+    margin: 10px;
+    background-color: white;
+}
+#map-canvas { 
+    height: 400px; 
+}
+.address{
+    border: 1px;
+    padding: 5px;
+    margin: 10px;
+    background-color: #EAEAEC;;
+}

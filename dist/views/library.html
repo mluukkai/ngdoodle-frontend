@@ -1,0 +1,12 @@
+<h3>{{info['name_fi']}}</h3>
+
+<div class="address">
+	{{info['street_address_fi']}}<br>
+	{{info['address_zip']}}
+	{{info['address_city_fi']}}<br><br>
+	puhelin {{info['phone']}}
+</div>
+
+<div ng-show="mapVisible" id="map-canvas">
+
+<p class="btn" ng-click="showMap()">kartta</p>

@@ -23,6 +23,11 @@ app.factory('Flash', function() {
     return flash;
 });
 
+app.factory('Library', function() {
+    var library = {};
+    return library;
+});
+
 app.factory('Events', function($http, BASE_URL) {
     var events = {};
 
@@ -74,7 +79,7 @@ app.factory('Registrations', function($http, BASE_URL) {
     return regs;
 });
 
-app.factory('Helmet', function($http, $q) {
+app.factory('Helmet', function($http, $q, BASE_URL) {
     var helmet = {};
 
     helmet.getBooksByAuthor = function(author) {
@@ -89,6 +94,7 @@ app.factory('Helmet', function($http, $q) {
             $http.jsonp("http://data.kirjastot.fi/search/author.json?query="+author+"&callback=JSON_CALLBACK")
                 .success(function(data, status, headers, config){
                     window.localStorage.setItem(author, JSON.stringify(data.records)); 
+                    console.log(data.records);
                     deferred.resolve(data.records); 
                 }).error(function(data, status, headers, config){
                     deferred.reject("error...");
@@ -96,6 +102,11 @@ app.factory('Helmet', function($http, $q) {
         }    
 
         return deferred.promise;
+    }
+
+    helmet.getShelfInfo = function(book) {
+        var b_id = book.library_id.substring(11);
+        return $http.get(BASE_URL+'/bookinfo/'+b_id);    
     }
 
     return helmet;
@@ -152,13 +163,119 @@ app.filter('slashToSpace', function(){
 
 /*
  *
+ *  LibraryCtrl
+ *
+ */
+
+app.controller('LibraryCtrl', function($scope, Library) {
+    $scope.info = Library.details || JSON.parse(window.localStorage.getItem("details"));
+    $scope.location = Library.myLocation || JSON.parse(window.localStorage.getItem("location"));
+
+    $scope.mapVisible = false;
+    $scope.mapLoaded = false;
+
+    function initialize(latitude, longitude) {
+        var directionsDisplay = new google.maps.DirectionsRenderer();
+        var directionsService = new google.maps.DirectionsService();
+
+        var libraryLocation = new google.maps.LatLng(latitude, longitude);
+        var currentLocation = new google.maps.LatLng($scope.location.latitude, $scope.location.longitude);
+
+        var mapOptions = {
+          center: libraryLocation,
+          zoom: 13
+        };
+
+        var map = new google.maps.Map(document.getElementById("map-canvas"),mapOptions);
+        directionsDisplay.setMap(map);
+
+        var library = new google.maps.Marker({
+            position: libraryLocation,
+            map: map,
+            title: $scope.info['name_fi']
+        });
+
+        var current = new google.maps.Marker({
+            position: currentLocation,
+            map: map,
+            title: "current location"
+        });
+
+        function calcRoute() {
+            //var selectedMode = document.getElementById('mode').value;
+            var request = {
+                origin: currentLocation,
+                destination: libraryLocation,
+                travelMode: google.maps.TravelMode['DRIVING']
+            };
+            directionsService.route(request, function(response, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    directionsDisplay.setDirections(response);
+                }
+            });
+        }
+        calcRoute();
+    }
+
+    $scope.showMap = function(){
+        if ( !$scope.mapLoaded ) {
+            initialize($scope.info['latitude'], $scope.info['longitude']);   
+            $scope.mapLoaded = true;            
+        }
+
+        $scope.mapVisible = !$scope.mapVisible;
+    }
+});
+
+/*
+ *
  *  HelmetCtrl
  *
  */
 
-app.controller('HelmetCtrl', function ($scope, Helmet, $http) {
+app.controller('HelmetCtrl', function ($scope, Helmet, Library, $location) {
     $scope.author = "";
-    //$scope.author = "Luukkainen";
+    $scope.author = "Luukkainen";
+    $scope.library = {}
+
+    $scope.select = function(library, info) {
+        $scope.library.selected = library;
+        $scope.library.details = info['library'];
+        Library.selected = library;
+        Library.details = info['library'];
+        Library.myLocation = $scope.location;
+        window.localStorage.setItem('selected', JSON.stringify(library));
+        window.localStorage.setItem('details', JSON.stringify(info['library']));
+        window.localStorage.setItem('location', JSON.stringify($scope.location));
+
+        $location.path('/library');
+    }
+
+    $scope.dist = function (lat1,lon1,lat2,lon2) {
+        function deg2rad(deg) {
+            return deg * (Math.PI/180)
+        }
+
+        var R = 6371; // Radius of the earth in km
+        var dLat = deg2rad(lat2-lat1);  // deg2rad below
+        var dLon = deg2rad(lon2-lon1); 
+        var a = 
+            Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+            Math.sin(dLon/2) * Math.sin(dLon/2); 
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+        var d = R * c; // Distance in km
+        return d.toFixed(2);
+    }
+
+    navigator.geolocation.getCurrentPosition( function(location) {
+        console.log(location.coords.latitude + " "+location.coords.longitude);
+        $scope.location = { 
+                            'latitude': location.coords.latitude,
+                            'longitude': location.coords.longitude
+                          }
+        $scope.$apply();                  
+    } );
 
     var author_details = function(book) {
         var names = book.author_details.length==0 || book.author_details[0].name==null ? [] : book.author_details[0].name.split("\\");
@@ -168,9 +285,12 @@ app.controller('HelmetCtrl', function ($scope, Helmet, $http) {
     }
 
     $scope.shelfInfo = function(book) {
-        var b_id = book.library_id.substring(11);
-        console.log(b_id);
-        $http.get("http://ng-doodle-backend.herokuapp.com/bookinfo/"+b_id).success( function(data){
+        if ( book.library_id.substring(11)==="b1856375" ) {
+            book.shelfInfo = JSON.parse(window.localStorage.getItem("kirja"));
+            return;   
+        } 
+
+        Helmet.getShelfInfo(book).success( function(data){
             console.log(data);
             book.shelfInfo = data; 
         });
