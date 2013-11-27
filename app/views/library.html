@@ -7,6 +7,8 @@
 	puhelin {{info['phone']}}
 </div>
 
-<div ng-show="mapVisible" id="map-canvas"/>
-
 <p class="btn" ng-click="showMap()">kartta</p>
+<a href="" class="btn" ng-click="showMap(); $event.stopPropagation();">kartta</a>
+
+<div ng-show="mapVisible" id="map-canvas"></div>
+
