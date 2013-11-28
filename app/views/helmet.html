@@ -2,12 +2,18 @@
 
 <form>
 	<input type="text" ng-model="author"></input>
-	<button ng-click="searchAuthor()">search by author</button>
+	<button ng-click="searchAuthorPage(1)">search by author</button>
 </form>
 
 <div ng-show="flash.nobooks" class="alert alert-danger">
 	ei tuloksia hakusanalla {{unsuccess}}
 </div>
+
+<span ng-repeat="p in pages">
+	<p ng-click="searchAuthorPage(p); $event.stopPropagation();" class="btn" ng-hide="p==current">{{p}}</p>
+	<p ng-click="searchAuthorPage(p); $event.stopPropagation();" class="btn btn-success" ng-show="p==current">{{p}}</p>
+</span>
+
 
 <div>
 	<div ng-repeat="book in books" ng-init="show=false" class="book">

@@ -82,20 +82,25 @@ app.factory('Registrations', function($http, BASE_URL) {
 app.factory('Helmet', function($http, $q, BASE_URL) {
     var helmet = {};
 
-    helmet.getBooksByAuthor = function(author) {
+    helmet.getBooksByAuthor = function(author, page) {
         var deferred = $q.defer();
-        var records = JSON.parse(window.localStorage.getItem(author));
+        var data = JSON.parse(window.localStorage.getItem(author+"-"+page));
 
-        if ( records!=null ) {
+        if ( data!=null ) {
             console.log("was in cache");
-            deferred.resolve(records);
+            deferred.resolve(data);
         } else {
             console.log("will fetch from server");
-            $http.jsonp("http://data.kirjastot.fi/search/author.json?query="+author+"&callback=JSON_CALLBACK")
+
+            var specify_page = "";
+            if ( page>1 ) {
+                specify_page = "&page="+page;
+            }
+            $http.jsonp("http://data.kirjastot.fi/search/author.json?query="+author+specify_page+"&callback=JSON_CALLBACK")
                 .success(function(data, status, headers, config){
-                    window.localStorage.setItem(author, JSON.stringify(data.records)); 
+                    window.localStorage.setItem(author+"-"+page, JSON.stringify(data)); 
                     console.log(data);
-                    deferred.resolve(data.records); 
+                    deferred.resolve(data); 
                 }).error(function(data, status, headers, config){
                     deferred.reject("error...");
                 });
@@ -242,7 +247,7 @@ app.controller('LibraryCtrl', function($scope, Library) {
 app.controller('HelmetCtrl', function ($scope, Helmet, Library, $location) {
     $scope.location = { 'latitude': 60.17, 'longitude':24.94}    
     $scope.author = "";
-    $scope.author = "Luukkainen";
+    //$scope.author = "Luukkainen";
     $scope.library = {};
     $scope.flash = {};
     $scope.no_shelf_info = {};
@@ -317,10 +322,14 @@ app.controller('HelmetCtrl', function ($scope, Helmet, Library, $location) {
         });
     }
 
-    $scope.searchAuthor = function() {
+    $scope.searchAuthorPage = function(page) {
         $scope.flash.nobooks = false;
-        Helmet.getBooksByAuthor($scope.author).then(function( books ) {
+
+        Helmet.getBooksByAuthor($scope.author, page).then(function( data ) {
+            var books = data.records;
+            console.log(data);
             console.log(books);
+            
             if ( books.length==0) {
                 $scope.flash.nobooks = true;
                 $scope.unsuccess = $scope.author;
@@ -329,7 +338,16 @@ app.controller('HelmetCtrl', function ($scope, Helmet, Library, $location) {
             _(books).each( function(book){
                 book.all_authors = author_details(book);
             } );
+
             $scope.books = books;
+            $scope.page = page;
+            $scope.total_entries = data.total_entries;
+            var number_of_pages = Math.ceil(data.total_entries / 12);
+            $scope.pages = [];
+            for( var i=1; i<=number_of_pages; i++ ){
+                $scope.pages.push(i);
+            }
+            $scope.current = page;
         });       
     }
 });
