@@ -94,7 +94,7 @@ app.factory('Helmet', function($http, $q, BASE_URL) {
             $http.jsonp("http://data.kirjastot.fi/search/author.json?query="+author+"&callback=JSON_CALLBACK")
                 .success(function(data, status, headers, config){
                     window.localStorage.setItem(author, JSON.stringify(data.records)); 
-                    console.log(data.records);
+                    console.log(data);
                     deferred.resolve(data.records); 
                 }).error(function(data, status, headers, config){
                     deferred.reject("error...");
@@ -189,6 +189,11 @@ app.controller('LibraryCtrl', function($scope, Library) {
         var map = new google.maps.Map(document.getElementById("map-canvas"),mapOptions);
         directionsDisplay.setMap(map);
 
+        setTimeout(function(){
+            google.maps.event.trigger(map, 'resize');
+            map.setCenter(libraryLocation);
+        },100);
+
         var library = new google.maps.Marker({
             position: libraryLocation,
             map: map,
@@ -214,6 +219,7 @@ app.controller('LibraryCtrl', function($scope, Library) {
                 }
             });
         }
+
         calcRoute();
     }
 
@@ -234,9 +240,12 @@ app.controller('LibraryCtrl', function($scope, Library) {
  */
 
 app.controller('HelmetCtrl', function ($scope, Helmet, Library, $location) {
+    $scope.location = { 'latitude': 60.17, 'longitude':24.94}    
     $scope.author = "";
     $scope.author = "Luukkainen";
-    $scope.library = {}
+    $scope.library = {};
+    $scope.flash = {};
+    $scope.no_shelf_info = {};
 
     $scope.select = function(library, info) {
         $scope.library.selected = library;
@@ -269,7 +278,6 @@ app.controller('HelmetCtrl', function ($scope, Helmet, Library, $location) {
     }
 
     navigator.geolocation.getCurrentPosition( function(location) {
-        console.log(location.coords.latitude + " "+location.coords.longitude);
         $scope.location = { 
                             'latitude': location.coords.latitude,
                             'longitude': location.coords.longitude
@@ -284,20 +292,40 @@ app.controller('HelmetCtrl', function ($scope, Helmet, Library, $location) {
         return  _.zip(names, roles);
     }
 
+    $scope.isEmptyOrUndefinded = function (obj) {
+        if (obj===undefined) return true;
+        return Object.keys(obj).length === 0;
+    }
+
     $scope.shelfInfo = function(book) {
+        $scope.flash[book.library_id] = true; 
+
         if ( book.library_id.substring(11)==="b1856375" ) {
+            console.log(window.localStorage.getItem("kirja"));
             book.shelfInfo = JSON.parse(window.localStorage.getItem("kirja"));
+            $scope.flash[book.library_id] = false;
             return;   
         } 
 
         Helmet.getShelfInfo(book).success( function(data){
-            console.log(data);
             book.shelfInfo = data; 
+            $scope.flash[book.library_id] = false;
+            if ( Object.keys(data).length === 0) {
+                $scope.no_shelf_info[book.library_id] = true;
+            }       
+            //window.localStorage.setItem('kirja', JSON.stringify(data)); 
         });
     }
 
     $scope.searchAuthor = function() {
+        $scope.flash.nobooks = false;
         Helmet.getBooksByAuthor($scope.author).then(function( books ) {
+            console.log(books);
+            if ( books.length==0) {
+                $scope.flash.nobooks = true;
+                $scope.unsuccess = $scope.author;
+            }
+
             _(books).each( function(book){
                 book.all_authors = author_details(book);
             } );

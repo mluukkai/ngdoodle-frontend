@@ -5,6 +5,10 @@
 	<button ng-click="searchAuthor()">search by author</button>
 </form>
 
+<div ng-show="flash.nobooks" class="alert alert-danger">
+	ei tuloksia hakusanalla {{unsuccess}}
+</div>
+
 <div>
 	<div ng-repeat="book in books" ng-init="show=false" class="book">
 		<h4>{{book.title|stripTrailingSpace}}</h4>
@@ -16,16 +20,15 @@
 			<a class="btn" ng-click="shelfInfo(book); $event.stopPropagation();">hyllytiedot</a>
 		</div>
 
-
-		<div ng-show="library.selected" class="library">
-			<h3>{{library.selected}}</h3>
-
-			{{library.details}}
-
-			<a class="btn" ng-click="library.selected=null; $event.stopPropagation();">sulje</a>
+		<div class="alert alert-info" ng-show="flash[book.library_id]==true">
+			tietoja haetaan...
 		</div>
 
-		<table class="table table-condensed" ng-show="book.shelfInfo!=undefined">
+		<div class="alert alert-danger" ng-show="no_shelf_info[book.library_id]==true">
+			hyllytietoja ei saatavilla
+		</div>
+
+		<table class="table table-condensed" ng-hide="isEmptyOrUndefinded(book.shelfInfo)">
 			<thead>
 				<td></td>
 				<td></td>
