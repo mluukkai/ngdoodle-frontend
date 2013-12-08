@@ -1,5 +1,9 @@
 <h3>{{info['name_fi']}}</h3>
 
+<div ng-show="nolocation" class="alert">
+	selaimesi ei tarjoa tietoa sijainnista
+</div>
+
 <div class="address">
 	{{info['street_address_fi']}}<br>
 	{{info['address_zip']}}

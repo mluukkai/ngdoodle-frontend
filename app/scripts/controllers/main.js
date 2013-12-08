@@ -176,6 +176,9 @@ app.controller('LibraryCtrl', function($scope, Library) {
     $scope.info = Library.details || JSON.parse(window.localStorage.getItem("details"));
     $scope.location = Library.myLocation || JSON.parse(window.localStorage.getItem("location"));
 
+    var nolocation = window.localStorage.getItem("nolocation");  
+    $scope.nolocation = (nolocation=="undefined") ? false: JSON.parse(nolocation); 
+
     $scope.mapVisible = false;
     $scope.mapLoaded = false;
 
@@ -244,13 +247,31 @@ app.controller('LibraryCtrl', function($scope, Library) {
  *
  */
 
-app.controller('HelmetCtrl', function ($scope, Helmet, Library, $location) {
-    $scope.location = { 'latitude': 60.17, 'longitude':24.94}    
-    $scope.author = "";
+app.controller('HelmetCtrl', function ($scope, Helmet, Library, $location, $timeout) {
+    $scope.location = { 'latitude': 60.17, 'longitude':24.94}
+    var last = window.sessionStorage.getItem("last");  
+    $scope.author = (last=="undefined") ? '': JSON.parse(last);  
     //$scope.author = "Luukkainen";
     $scope.library = {};
     $scope.flash = {};
     $scope.no_shelf_info = {};
+    var locationSet = false;
+
+    $timeout(function() {
+        if ( !locationSet ) {
+            $scope.flash.nolocation = true; 
+        } 
+    }, 1000);
+    
+
+    navigator.geolocation.getCurrentPosition( function(location) {
+        $scope.location = { 
+                            'latitude': location.coords.latitude,
+                            'longitude': location.coords.longitude
+                          }
+        locationSet = true;                                          
+        $scope.$apply();                  
+    } );
 
     $scope.select = function(library, info) {
         $scope.library.selected = library;
@@ -261,6 +282,8 @@ app.controller('HelmetCtrl', function ($scope, Helmet, Library, $location) {
         window.localStorage.setItem('selected', JSON.stringify(library));
         window.localStorage.setItem('details', JSON.stringify(info['library']));
         window.localStorage.setItem('location', JSON.stringify($scope.location));
+        window.sessionStorage.setItem('last', JSON.stringify($scope.author));
+        window.localStorage.setItem('nolocation', JSON.stringify($scope.flash.nolocation));
 
         $location.path('/library');
     }
@@ -281,14 +304,6 @@ app.controller('HelmetCtrl', function ($scope, Helmet, Library, $location) {
         var d = R * c; // Distance in km
         return d.toFixed(2);
     }
-
-    navigator.geolocation.getCurrentPosition( function(location) {
-        $scope.location = { 
-                            'latitude': location.coords.latitude,
-                            'longitude': location.coords.longitude
-                          }
-        $scope.$apply();                  
-    } );
 
     var author_details = function(book) {
         var names = book.author_details.length==0 || book.author_details[0].name==null ? [] : book.author_details[0].name.split("\\");

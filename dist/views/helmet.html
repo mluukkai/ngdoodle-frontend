@@ -1,5 +1,9 @@
 <h2>helmet</h2>
 
+<div ng-show="flash.nolocation" class="alert">
+	selaimesi ei tarjoa tietoa sijainnista
+</div>
+
 <form>
 	<input type="text" ng-model="author">
 	<button ng-click="searchAuthorPage(1)">search by author</button>
