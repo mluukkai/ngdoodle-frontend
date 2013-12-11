@@ -3,6 +3,9 @@
 <div ng-show="flash.nolocation" class="alert">
 	selaimesi ei tarjoa tietoa sijainnista
 </div>
+<div ng-hide="flash.nolocation" class="alert">
+	{{location}}
+</div>
 
 <form>
 	<input type="text" ng-model="author"></input>

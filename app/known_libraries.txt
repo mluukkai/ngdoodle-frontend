@@ -1,0 +1,378 @@
+http://api.reittiopas.fi/hsl/prod/?user=mluukkai&pass=mluukkai&epsg_in=4326&epsg_out=4326&request=reverse_geocode&coordinate=25.018848499999997,60.255379399999995
+
+
+Malmi Library
+Pukinmäki Library
+Töölö Library
+Vallila Library
+Etelä-Haaga Library
+Rikhardinkatu Library
+Pohjois-Haaga Library
+Munkkiniemi Library
+Kannelmäki Library
+Kallio Library
+Laajasalo Library
+Meetingpoint@lasipalatsi
+Oulunkylä Library
+Malminkartano Library
+Multilingual Library
+Ruoholahti Children's Library
+Itäkeskus Library
+Roihuvuori Elderly Center Library
+Herttoniemi Library
+Pasila Library
+Myllypuro Hospital Library
+Paloheinä Library
+Käpylä Library
+Suutarila Library
+Lauttasaari Library
+Roihuvuori Library
+Viikki Library
+Suomenlinna Library
+Library and Information Services, Research
+Kustaankartano Elderly Center Library
+Vuosaari Library
+Myllypuro Media Library
+Library 10
+Arabianranta Library
+Maunula Library
+Tapulikaupunki Library
+Laakso Hospital Library
+Psychiatric Hospital Library
+Puistola Library
+Library and Information Services, Statistics
+Jakomäki Library
+Tapanila Library
+Pitäjänmäki Library
+City Planning Department, Communication
+Information and exhibition space Laituri
+Sakarinmäki Children's Library
+Kauniainen library
+Laaksolahti Library
+Tapiola Library
+Kivenlahti Library
+Kauklahti Library
+Entresse Library
+Kalajärvi Library
+Laajalahti Library
+Soukka Library
+Library Apple
+Haukilahti Library
+Nöykkiö Library
+Karhusuo Library
+Viherlaakso Library
+Sello Library
+Myyrmäki Library
+Lumo Library
+Tikkurila Library
+Länsimäki Library
+Point Library
+Hiekkaharju Library
+Pähkinärinne Library
+Martinlaakso Library
+Koivukylä Library
+Hakunila Library
+Saunalahti Library
+Mobile library stop Lasilaakso
+Mobile library stop Eestinlaakso,  Eestinkallio school
+Hangonkatu Rehabilitation Center Library
+Mobile library stop Ristipuro, Laaksotie 1
+Mobile library stop Suna, Suna school
+Mobile library stop Karakallio/ Karakallion chapel
+Mobile library stop Talinlehto, Taimistontie / turnaround
+Mobile library stop Tammisto Rosendalinrinki 1
+Mobile library stop Strömberg's area, Takomotie 13
+Mobile library stop Nikinmäki, Korennontie 50 / Mehiläisentie
+Mobile library stop Lintuvaara, Lintuvaara school
+Mobile library stop Ilola, Nietoskuja 2
+Mobile library stop Vaarala, Koivumäentie 29
+Mobile library stop Niipperi, Niipperi school
+Mobile library stop Koivupää, Runkotie 20
+Mobile library stop Kyyhkysmäki
+Mobile Library Helsinki
+Mobile library stop Lähderanta, Lähderanta school
+Mobile library stop Bodom
+Pikku Huopalahti Children's Library
+Mobile library stop Metsola, Metsolantie 53
+Mobile library stop Hanaböle, Vanha Myllypolku 6
+Mobile library stop Suna, Suna school
+Mobile library stop Askisto, Hirsikuja 2
+Teaching facilities at Oulunkylä Library
+Mobile library stop Hyljelahti, Rullavuoren day care centre
+Mobile library stop Järvenperä, Järvenperä school
+Mobile library stop Rinnekoti
+Mobile library stop Munkkivuori, Raumatie / Naantalintie
+Mobile library stop Röylä, Rödskog school
+Mobile library stop Pohjois-Nikinmäki, Pitkäsiima 33 / Siikatie
+Mobile library stop Ruoholahti, Ruoholahdentori
+Mobile library stop Lintulaakso, Lintulaakso school
+Mobile library stop Nuuksio, Nuuksio school
+Mobile library stop Kivikko, Nallitie / Korttelitalo
+Mobile library stop Pakankylä, Pakankylä school
+Mobile library stop Päiväkumpu school
+Mobile library stop Friisilä, Friisilän day care centre
+Mobile library stop Puotila, Klaavuntie 16
+Mobile library stop Päiväkumpu, Onervantie 1
+Mobile library stop Kilo, Kilo day care centre
+Mobile library stop Etelä-Päiväkumpu, Peijaksentie 18
+Mobile library stop Kilo/ Kilo VPK
+Mobile library stop Punavuori, Hietalahdenkatu 2
+Mobile library stop Koskela, Juhana Herttuantie / Voudintie
+Mobile library stop Ruskeasuo, Kiskontie / Raisiontie
+Mobile library stop Hämeenkylä, Ainontie 13
+Mobile library stop Ylästö school
+Mobile library stop Katajanokka, Merisotilaantori
+Mobile library stop Bemböle, Bemböle skola/ förskola
+Mobile library stop Auroranportti, Auroranportti day care centre
+Mobile library stop Lippajärvi, K-market
+Mobile library stop Kuninkaanmäki, Pohjolantie 34
+Mobile library stop Viertola school
+Mobile library stop Latokaski, Kaskipiha day care centre
+Mobile library stop Taavinkylä, Taavinkylän day care centre
+Mobile Library Espoo
+Mobile library stop Vantaanlaakso, Vanha Nurmijärventie 29
+Mobile library stop Fallpakka, Kallvikintie / Fallpakantie
+Mobile library stop Lintumetsä, Lintumetsän kindergarten
+Kontula Elderly Center Libary
+Mobile library stop Tolkinmetsä, Kehävuorenkuja 6
+Mobile library stop Herttoniemenranta A, Laivalahdenkaari 12
+Mobile library stop Eestinlaakso, Eestinlaakson day care centre
+Mobile library stop Haapaniemi, Tenava-Kärry day care centre
+Mobile library stop Lehtisaari, Lehdesniityntie / shopping centre
+Kahlaaja / Wader
+Mobile library stop Lintulaakso, Lintulaakso school
+Mobile library stop Mankkaa
+Mobile library stop Ylästö, Ollaksentie 64 / Kääpäkuja
+Mobile library stop Otaniemi, Lastentalo Onnimanni day care centre
+Mobile Library Vantaa
+Mobile library stop Mankkaa, Vilske day care centre
+Mobile library stop Tillinmäki/ Tillinmäki day care centre
+Mobile library stop Karakallio, Rastaala school
+Mobile library stop Pohjois-Nikinmäki, Pitkäsiima 10 / Haukitie
+Mobile library stop Askisto school
+Mobile library stop Seutula school
+Mobile library stop Järvenperä, Puutarhuri day care centre
+Workers' Institute Library
+Mobile library stop Lintuvaara, Lintukulma day care centre
+Mobile library stop Nissinmäki
+Mobile library stop Lintuvaara, Lintuvaara school
+Mobile library stop Leppäkorpi, Kontiotie 34
+Harakka Island
+Mobile library stop Jokiniemi, Tähkäkuja 2
+Mobile library stop Leppävaara, Ajurinmäki day care centre
+Mobile library stop Koivikko, Kesäkyläntie 20
+Mobile library stop Veräjälaakso, Otto Brandtin tie / Otto Brandtin polku
+Mobile library stop Tontunmäki, Tontunmäki/ Kotitonttu day care centre
+Mobile library stop Iivisniemi , shopping center, Iivisniemenkatu 3
+Mobile library stop Martinkallio, Martinkallio school
+Mobile library stop Järvenperä, Hovinarri day care centre
+Mobile library stop Friisinmäki, Siuntionkuja day care centre
+Mobile library stop Tapiola, Pohjois-Tapiolan day care centre
+Mobile library stop Katajanokka, Merisotilaantori
+Mobile library stop Ullantorppa B/ Ymmersta day care centre
+Mobile library stop Pajamäki, Pajamäentie / shopping centre
+Mobile library stop Kivistö school
+Mobile library stop Asola, Pajutie 16
+Mobile library stop Nuuksio, Nuuksio school
+Mobile library stop Bemböle
+Mobile library stop Sepänkylä, Smedsby skola
+Mobile library stop Kumpula, Intiankatu / Kumpulantaival
+Mobile library stop Eestinmalmi, Eestinmetsän day care centre
+Mobile library stop Eestinmalmi
+Mobile library stop Malminiitty, Uusiniityntie 4
+Mobile library stop Lapinniitty, Santakuopantie 3
+Mobile library stop Vantaanpuisto, Vantaanreitti 6
+Mobile library stop Riihipelto school
+Mobile library stop Reuna, Reunatie 11 / Reunakuja
+Mobile library stop Mankkaa, Koivumankkaa day care centre
+Mobile library stop Nissas, Nissaksentie 1
+Mobile library stop Varisto, Luhtitie 14
+Töölön kirjaston opetuspaikka
+In Espoo
+Mobile library stop Leppävaara/ Postipuu school and day care centre
+Mobile library stop Ilola school
+Mobile library stop Kirkkojärvi Onnentupa day care centre
+Mobile library stop Vanttila, Vanttila school
+Mobile library stop Matinkylä, Matinniitty day care centre
+Mobile library stop Järvenperä, Aurora day care centre
+Mobile library stop Lystimäki, Lystimäentie/ Isoistentie
+Laajalahden kirjasto, työväenopiston opetuspaikka
+Mobile library stop Leppäsilta, Leppäsilta day care centre
+Mobile library stop Nikinmäki school
+Mobile library stop Hevossalmi, Porekuja / Laajasalontie
+Mobile library stop Niipperi
+Mobile library stop Suomenoja, Suomenojan day care centre
+Mobile library stop Taavinkylä. Taavinkylä school
+Mobile library stop Kuninkaanmäki, Kuusimäentie 1
+Mobile library stop Eestinmalmi, Eestinmalmi day care centre
+Mobile library stop Varisto school
+Mobile library stop Latokaski, Latokaski school
+Mobile library stop Kannisto, Kannistonkuja 2
+Mobile library stop Vierumäki school
+Mobile library stop Vanttila, Vanttila school, Nissintie 4
+Mobile library stop Mankkaa
+Home Delivery Service
+Mobile library stop Vierumäki, Korppitie 22
+Mobile library stop Itä-Hakkila Itäinen Valkoisenlähteentie 11
+Mobile library stop Aerola, Pyhtäänkorventie 23
+Mobile library stop Lintulaakso, Lintula kindergarten
+Mobile library stop Nupuri, Nupurin day care centre
+Mobile library stop Latokaski, Latokaski school
+Mobile library stop Tuomarila, Tuomarila school
+Mobile library stop Kivistö, Kannistontie 2
+Mobile library stop Askisto, Askistontie 54
+Mobile library stop Muurala, Koulumestari day care centre
+Mobile library stop Juvanpuisto, Juvanpuisto school
+Mobile library stop Kuitinmäki
+Mobile library stop Niku
+Mobile library stop Suurpelto
+Mobile library stop Miilukorpi
+Mobile library stop Hiekkaharju school
+Mobile library stop Ruskeasuo, Kiskontie / Raisiontie
+Prometric Test Centre
+Mobile library stop Nuottakallio, Nuottakunnan day care centre
+Käpylän kirjaston opetuspaikka
+Mobile library stop Vallinoja, Varpusenkuja 1
+Mobile library stop Uusmäki
+Mobile library stop Tuomarila, Luhtaniitty day care centre
+Mobile library stop Riipilä, Mäntymäki 4
+Mobile library stop Friisilä, Friisilä school
+Mobile library stop Kruununhaka, Liisankatu 1
+Mobile library stop Suvela, Hösmäri day care centre
+Mobile library stop Lippajärvi, Aurora school
+Mobile library stop Haapaniemi
+Mobile library stop Laaksolahti, Laaksolahden/ Pikkukettu day care centre  tre, Tapionportti 5
+Mobile library stop Karakallio, Karamäki kindergarten
+Mobile library stop Roihuvuori, Roihuvuorentie 2
+Mobile library stop Landbo, Isoniityntie / Landbontie
+Mobile library stop Martinmäki, Tenava-pirtti day care centre
+Mobile library stop Tapiola, SOS-Lapsikylä  Tapiola
+Mobile library stop Rekola school
+Mobile library stop Pikku Huopalahti A, Korppaanmäentie / Kytösuonpolku
+Mobile library stop Tuomarila, Tuomarila school
+Mobile library stop Itä-Hakkila school
+Mobile library stop Pihlajarinne
+Mobile library stop Meri-Rastila, Meri-Rastilantie / Ramsinniementie
+Mobile library stop Kannisto school
+Historia, Laki.../History, Law, Philosophy, Art, Medicine, Theology, Astronomy, Physics and Natural History
+Mobile library stop Lippajärvi, Fågelsången day care centre
+Mobile library stop Vartioharju, Uiskotie / Viikingintie
+Mobile library stop Simonkallio school
+Mobile library stop Ruskeasanta, Mistelikuja 24
+Mobile library stop Fallkulla, Tasankotie / Helluntairaitti
+Mobile library stop Juvanmalmi
+Mobile library stop Gumböle
+Mobile library stop Henttaa, Väli-Henttaantie 3
+Mobile library stop Tillinmäki
+Mobile library stop Rekolanmäki school
+Mobile library stop Pihlajarinne
+Mobile library stop Pisa, Pisan kindergarten
+Mobile library stop Odilampi, Odilampi dormitory
+Mobile library stop Ylästö, Isonmännyntie 38 / Lehtikummunkuja
+The National Defence University Library
+Mobile library stop Mikkola, Venuksentie 1
+Mobile library stop Kuusikko school
+Teaching facilities at Lauttasaari Library
+Mobile library stop Iivisniemi, Iivisniemi day care centre
+Mobile library stop Holmankorpi, Kaarnapursi kindergarten
+Mobile library stop Lippajärvi B, Auroranniitty day care centre
+Mobile library stop Kyrkoby school
+Mobile library stop Lippajärvi, Lippajärven day care center
+Mobile library stop Jokivarsi school
+Mobile library stop Pakankylä, Pakankylä school
+Mobile library stop Leppäkorpi, Hirvastie 1 / Harmaahylkeentie
+Riistavuori Elderly Center Library
+Mobile library stop Laurinlahti, Ristiniementie 34
+Aurora Hospital Library
+Mobile library stop Kivenlahti
+Kontula Library
+Mobile library stop Vanttila
+Mobile library stop Niittykumpu, Niittykumpu day care centre
+Mobile library stop Kirkkojärvi, Kylänaukion day care centre
+Mobile library stop Heiniemi
+Taidelainaamo
+Children's Hospital Library
+Mobile library stop Seutula, Katriinantie 58 / Knaapinkuja
+Mobile library stop Mankkaa, Mankkaan nursery school
+Mobile library stop Niipperi, Niipperi school
+Mobile library stop Olari
+Mobile library stop Mellunmäki, Korvatunturintie 1
+Mobile library stop Olari B, Marjalax  day care center
+Mobile library stop Niittykumpu school
+Mobile library stop Kulomäki, Maauuninkuja 6
+Mobile library stop Leppävaara/ Postipuu school and day care centre
+Mobile library stop Pikku Huopalahti B, Tilkankatu / Taavetti Laitisen katu
+Mobile library stop Pitkäniitty, Pikku-Karhu day care centre
+Mobile library stop Latokaski, Lehtikaski day care centre
+Mobile library stop Simonmetsä, Raatetie 25
+Statistics Finland
+Mobile library stop Herttoniemenranta A, Laivalahdenkaari 12
+Maunulan kirjaston opetuspaikka
+Mobile library stop Kulloonmäki, Isännäntie 16
+Mobile library stop Kylmäoja, Ahdetie 2
+Mobile library stop Lahnus, Lahnus school
+Mobile library stop Hyljemäki, Kuuttikuja 1
+Mobile library stop Mäkkylä, Mäkkylän day care centre
+Mobile library stop Järvenperä
+Mobile library stop Siikajärvi, Kotimäentie 2
+Mobile library stop Friisilä, Friisilä school
+Mobile library stop Kulosaari, Kyösti Kallion tie 1
+Mobile library stop Steinerschool
+Mobile library stop Niittykumpu school
+Mobile library stop Myntinsyrjä, Ramssi  day care center
+Kirjasto Omena, "Huvitus", työväenopiston opetuspaikka
+Mobile library stop Kaitaa, Kaitaanniitty day care centre
+Mobile library stop Taavinkylä, Taavilantie 2
+Mobile library stop Heiniemi, Heiniemen day care centre
+Katrine Hospital Library
+Haukilahden kirjasto, työväenopiston opetuspaikka
+Mobile library stop Latokartano A, Laivuri-Petterin katu
+Mobile library stop Kilo
+Espoo Hospital Library
+Mobile library stop Juvanpuisto, Juvanpuisto school
+Mobile library stop Kuninkainen, Kuninkainen day care centre
+Mobile library stop Kaitaa, Riihilahti workingteam
+Mobile library stop Järvitorppa, Järvitorppa/Töpöhäntä day care centre
+Mobile library stop Olari/ Päivänkehrä school
+Mobile library stop Muurala
+Mobile library stop Koivuhovi, Ullanmäki kindergarten
+Mobile library stop Laajalahti/ Laakakivi day care centre
+Mobile library stop Martinkallio, Martinkallio school
+Mobile library stop Satomäki, Ohratie 3 / Ohrakuja
+Mobile library stop Asola, Andersinkatu 4
+Mobile library stop Vanhakartano, Tähkäpää day care centre
+Mobile library stop Päiväkumpu, Laurintie 43
+Mobile library stop Kurttila, Lintukoto day care centre
+Mobile library stop Niemenmäki, Niemenmäentie / Luuvaniementie
+Mobile library stop Olari/ Päivänkehrä school
+Teaching facilities at Paloheinä Library
+Mobile library stop Lintulaakso, Lintulaakso school
+Kela, Espoo / In Espoo -maahanmuuttajapalvelut
+Lukusali/ The Reading room
+Mobile library stop Merihaka, Hakaniemenranta 14
+Mobile library stop Jokiranta school
+Mobile library stop Jorvi, Keinumäki school and Jorvi day care centre
+Mobile library stop Pirttiranta, Pirttirannantie 9
+Mobile library stop Suurpelto, Maakirja day care centre
+Mobile library stop Lähderanta, Lähderanta kindergarten
+Mobile library stop Rastaspuisto
+Mobile library stop Maarinkunnas, Maarinkunnaantie 9
+Mobile library stop Ullantorppa
+Mobile library stop Herttoniemenranta B, Laivalahden puistotie 10
+Mobile library stop Talinranta, Taiteentekijäntie 7
+Mobile library stop Vestra, Vestrantie 87
+Mobile library stop Taavinkylä. Taavinkylä school
+Mobile library stop Nokkala, Nokkalanpuiston day care centre
+Mobile library stop Latokartano B, Metsänhoitajankatu / Agronominraitti
+Mobile library stop Tuomela skola
+Mobile library stop Simonsilta, Sananjalantie 6
+Mobile library stop Mankkaa, Seilimäki day care centre
+Mobile library stop Järvenperä, Järvenperä day care centre
+Mobile library stop Vanttila, Vanttilan kindergarten
+Mobile library stop Myllypuro, Myllypurontie / Orpaanporras
+Mobile library stop Tuomarila C, Tuomarila kindergarten
+Mobile library stop Karhusaari, Karhusaarentie / Reelinki
+Mobile library stop Karakallio, Rastaala school
+Mobile library stop Nikinmäki, Perhotie 5
+Mobile library stop Lintuvaara/ Lintuvaaran day care centre
+Mobile library stop Kuurinniitty

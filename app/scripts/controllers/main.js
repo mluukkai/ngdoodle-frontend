@@ -96,6 +96,7 @@ app.factory('Helmet', function($http, $q, BASE_URL) {
             if ( page>1 ) {
                 specify_page = "&page="+page;
             }
+
             $http.jsonp("http://data.kirjastot.fi/search/author.json?query="+author+specify_page+"&callback=JSON_CALLBACK")
                 .success(function(data, status, headers, config){
                     window.localStorage.setItem(author+"-"+page, JSON.stringify(data)); 
@@ -172,7 +173,7 @@ app.filter('slashToSpace', function(){
  *
  */
 
-app.controller('LibraryCtrl', function($scope, Library) {
+app.controller('LibraryCtrl', function($scope, Library, $http) {
     $scope.info = Library.details || JSON.parse(window.localStorage.getItem("details"));
     $scope.location = Library.myLocation || JSON.parse(window.localStorage.getItem("location"));
 
@@ -182,39 +183,42 @@ app.controller('LibraryCtrl', function($scope, Library) {
     $scope.mapVisible = false;
     $scope.mapLoaded = false;
 
+    function setPoint(latitude, longitude, name) {
+        var location = new google.maps.LatLng(latitude, longitude);
+        var point = new google.maps.Marker({
+            position: location,
+            map: $scope.map,
+            title: name
+        });
+
+        return point;
+    }
+
     function initialize(latitude, longitude) {
-        var directionsDisplay = new google.maps.DirectionsRenderer();
+        $scope.directionsDisplay = new google.maps.DirectionsRenderer();
         var directionsService = new google.maps.DirectionsService();
+
+        var mapOptions = {
+            disableDefaultUI: true,
+            center: libraryLocation,
+            zoom: 13
+        };
+
+        $scope.map = new google.maps.Map(document.getElementById("map-canvas"),mapOptions);
+        $scope.directionsDisplay.setMap($scope.map);
 
         var libraryLocation = new google.maps.LatLng(latitude, longitude);
         var currentLocation = new google.maps.LatLng($scope.location.latitude, $scope.location.longitude);
 
-        var mapOptions = {
-          center: libraryLocation,
-          zoom: 13
-        };
-
-        var map = new google.maps.Map(document.getElementById("map-canvas"),mapOptions);
-        directionsDisplay.setMap(map);
-
         setTimeout(function(){
-            google.maps.event.trigger(map, 'resize');
-            map.setCenter(libraryLocation);
+            google.maps.event.trigger($scope.map, 'resize');
+            $scope.map.setCenter(libraryLocation);
         },100);
 
-        var library = new google.maps.Marker({
-            position: libraryLocation,
-            map: map,
-            title: $scope.info['name_fi']
-        });
+        setPoint(latitude, longitude, $scope.info['name_fi']);
+        setPoint($scope.location.latitude, $scope.location.longitude, "current location");
 
-        var current = new google.maps.Marker({
-            position: currentLocation,
-            map: map,
-            title: "current location"
-        });
-
-        function calcRoute() {
+        $scope.calcRoute = function() {
             //var selectedMode = document.getElementById('mode').value;
             var request = {
                 origin: currentLocation,
@@ -223,15 +227,33 @@ app.controller('LibraryCtrl', function($scope, Library) {
             };
             directionsService.route(request, function(response, status) {
                 if (status == google.maps.DirectionsStatus.OK) {
-                    directionsDisplay.setDirections(response);
+                    $scope.directionsDisplay.setDirections(response);
                 }
             });
         }
 
-        calcRoute();
+        //$scope.calcRoute();
     }
 
-    $scope.showMap = function(){
+    $scope.carRoute = false;
+    $scope.routeCaculated = false;
+
+    $scope.showCarRoute = function(){
+        if ( !$scope.routeCaculated) {
+            $scope.calcRoute();
+            $scope.routeCaculated = true;
+        } else  {          
+            $scope.directionsDisplay.setMap($scope.map);
+        } 
+        $scope.carRoute = true;      
+    }
+
+    $scope.hideCarRoute = function(){
+        $scope.directionsDisplay.setMap(null);
+        $scope.carRoute = false;
+    }
+
+    $scope.showMap = function () {
         if ( !$scope.mapLoaded ) {
             initialize($scope.info['latitude'], $scope.info['longitude']);   
             $scope.mapLoaded = true;            
@@ -239,6 +261,134 @@ app.controller('LibraryCtrl', function($scope, Library) {
 
         $scope.mapVisible = !$scope.mapVisible;
     }
+
+    $http.get("http://localhost:3000/canned").success(function(data, status, headers, config){
+        console.log(data);
+        //$scope.route = data;
+    }).error(function(data, status, headers, config){
+        console.log("error");
+        console.log(status);
+    });
+
+
+    $scope.drawPath = function (locations) {
+        var coords = _(locations).map( function(item){ return item.coord } );
+  
+        var coordinates = [];
+
+        _($scope.points).each(function(point) {
+            coordinates.push( point );
+        });
+
+        var path = new google.maps.Polyline({
+            path: coordinates,
+            geodesic: true,
+            strokeColor: '#FF0000',
+            strokeOpacity: 1.0,
+            strokeWeight: 2
+        });
+
+        path.setMap($scope.map);
+    }
+
+    $scope.showLeg = function (locations) {
+        var coords = _(locations).map( function(item){ return item.coord } );
+        //console.log(coords);
+        
+        var coordinates = [];
+        _(coords).each(function(coord) {
+            coordinates.push( new google.maps.LatLng(coord['y'], coord['x']));
+        });
+
+        var wp = [];
+
+        var len = Math.min(9, coordinates.length-1);
+
+        for( var i=1; i<len; i++ ) {
+            wp.push({location:coordinates[i], stopover:true});            
+        }
+
+        var request = {
+            origin: coordinates[0],
+            destination: coordinates[coordinates.length-1],
+            waypoints: wp,
+            optimizeWaypoints: true,
+            travelMode: google.maps.TravelMode.TRANSIT
+        };
+
+        var directionsDisplay = new google.maps.DirectionsRenderer();
+        var directionsService = new google.maps.DirectionsService();
+
+        directionsService.route(request, function(response, status) {
+            if (status == google.maps.DirectionsStatus.OK) {
+                directionsDisplay.setDirections(response);
+            }
+        });
+
+        directionsDisplay.setMap($scope.map);
+    }
+
+    $scope.showRoute = function () {
+        var url = "http://localhost:3000/hsl?"+
+                "clatitude="+$scope.location.latitude+"&clongitude="+$scope.location.longitude+
+                "&dlatitude="+$scope.info['latitude']+"&dlongitude="+$scope.info['longitude']
+
+        $http.get(url).success(function(data, status, headers, config){
+            console.log(data);
+            $scope.route = data;
+        }).error(function(data, status, headers, config){
+            console.log("error");
+            console.log(status);
+        });
+    }
+
+    var route = function(latitude, longitude){
+        var libraryLocation = new google.maps.LatLng(latitude, longitude);
+        var currentLocation = new google.maps.LatLng($scope.location.latitude, $scope.location.longitude);
+    
+        var req = {
+            origin: libraryLocation,
+            destination: currentLocation,
+            travelMode: google.maps.DirectionsTravelMode.DRIVING,
+            unitSystem: google.maps.UnitSystem.METRIC
+        };
+
+        var req2 = {
+            origin: "Malmi",
+            destination: "Pasila",
+            travelMode: google.maps.DirectionsTravelMode.TRANSIT,
+            unitSystem: google.maps.UnitSystem.METRIC
+        };
+
+        var directionsService = new google.maps.DirectionsService();
+
+        directionsService.route(req, function(result, status){
+            console.log(result);
+            $scope.points  = result.routes[0]['overview_path'];
+        });
+    }
+
+    route($scope.info['latitude'], $scope.info['longitude']);
+
+    $scope.drawLeg = function (leg) {
+        var libraryLocation = new google.maps.LatLng(latitude, longitude);
+        var currentLocation = new google.maps.LatLng($scope.location.latitude, $scope.location.longitude);
+
+        var req = {
+            origin: "Malmi",
+            destination: "Pasila",
+            travelMode: google.maps.DirectionsTravelMode.TRANSIT,
+            unitSystem: google.maps.UnitSystem.METRIC
+        };
+
+        var directionsService = new google.maps.DirectionsService();
+
+        directionsService.route(req, function(result, status){
+            console.log(result);
+            $scope.points  = result.routes[0]['overview_path'];
+        });        
+    }
+
 });
 
 /*

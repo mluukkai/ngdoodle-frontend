@@ -11,6 +11,37 @@
 	puhelin {{info['phone']}}
 </div>
 
+<p class="btn" ng-click="showRoute()">reitti</p>
+
+<div>
+	<div ng-repeat="r in route">
+		<p>length: {{r[0]['length']}}</p>
+		<p>duration {{r[0]['duration']}}</p>
+
+		<ul>
+			<li ng-repeat="leg in r[0]['legs']">
+				length: {{leg['length']}}, duration: {{leg['length']}}, type: {{leg['type']}}, code: {{leg['code']}}
+<!--
+				<p><b>from:</b> {{leg['locs'][0]}}</p>
+				<p><b>to:</b> {{leg['locs'][leg['locs'].length-1]}}</p>
+-->
+				<p class="btn" ng-click="showLeg(leg['locs'])">näytä</p>
+				<p class="btn" ng-click="drawLeg(leg)">näytä2</p>
+<!--
+
+				-->
+			</li>
+		</ul>
+		<hr>
+	</div>
+</div>
+
 <p class="btn" ng-click="showMap()">kartta</p>
+<div ng-show="mapVisible">
+	<p class="btn" ng-show="!carRoute" ng-click="showCarRoute()">näytä ajoreitti</p>
+	<p class="btn" ng-show="carRoute" ng-click="hideCarRoute()">piilota ajoreitti</p>
+	<p class="btn" ng-click="drawPath()">piirrä</p>
+
+</div>
 
 <div ng-show="mapVisible" id="map-canvas"></div>
